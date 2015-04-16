@@ -43,7 +43,7 @@ public class RecipeTest {
 		Ingredient in1 = new Ingredient("test", 100, 100);
 		Ingredient in2 = new Ingredient("test2", 100, 100);
 
-		Recipe rec = new Recipe();
+		Recipe rec = new Recipe("testname");
 		rec.addIngredient(in1, 100);
 		rec.addIngredient(in2, 100);
 		assertEquals(200, rec.getPrice(), 0.0002f);

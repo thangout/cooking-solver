@@ -19,8 +19,10 @@ import java.util.Set;
  */
 public class Recipe {
 	HashMap usage;
+	String name;
 
-	public Recipe() {
+	public Recipe(String name) {
+		this.name = name;
 		usage = new HashMap<Ingredient,Integer>();
 	}
 

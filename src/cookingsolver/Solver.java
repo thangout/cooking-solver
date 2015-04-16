@@ -42,7 +42,7 @@ public class Solver {
 		 */
 		if (k > maxk) {
 			/* insert code here to use combinations as you please */
-			Recipe recp = new Recipe();
+			Recipe recp = new Recipe("name");
 			for (i = 1; i <= maxk; i++) {
 				Ingredient ing = ingredients.get(v[i]-1);
 				recp.addIngredient(ing,ing.weight/days );
