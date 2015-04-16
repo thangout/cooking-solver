@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package cookingsolver;
 
 /**
@@ -11,9 +10,10 @@ package cookingsolver;
  * @author Thang Do
  */
 public class Ingredient {
+
 	private String name;
-	 int weight;
-	 int price;
+	int weight;
+	int price;
 
 	public Ingredient(String name, int weight, int price) {
 		this.name = name;
@@ -22,11 +22,11 @@ public class Ingredient {
 	}
 
 	/**
-	 * 
-	 * @return a price for 1g 
+	 *
+	 * @return a price for 1g
 	 */
 	public double getPrice() {
-		return price/(float)weight;
+		return price / (float) weight;
 	}
 
 	public String getName() {
@@ -36,7 +36,4 @@ public class Ingredient {
 	public int getWeight() {
 		return weight;
 	}
-
-	
-	
 }

@@ -22,22 +22,6 @@ public class RecipeTest {
 	public RecipeTest() {
 	}
 
-	@BeforeClass
-	public static void setUpClass() {
-	}
-
-	@AfterClass
-	public static void tearDownClass() {
-	}
-
-	@Before
-	public void setUp() {
-	}
-
-	@After
-	public void tearDown() {
-	}
-
 	@Test
 	public void price() {
 		Ingredient in1 = new Ingredient("test", 100, 100);
