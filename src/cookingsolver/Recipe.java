@@ -55,4 +55,8 @@ public class Recipe {
 		}
 		System.out.println("Price: " + getPrice() + ",-");
 	}
+
+	public HashMap getIngredientsNeeded(){
+		return usage;
+	}
 }

@@ -1,10 +1,10 @@
 Egg jaffle
 Bread, 200
-Egg,2
+Egg, 2
 
 Cheese toast
 Bread,200
-Cheese, 100
+Cheese, 100 
 Ketchup, -1
 
 Rice with Tuna and Egg
@@ -85,12 +85,12 @@ Ketchup, 45
 
 Potato and sausage
 Onion, 100
-Potato, 175,
+Potato, 175
 Sausage, 75
 Cheese, 50
 
 Egg and bacon
 Egg, 3
-Bacon 60,
+Bacon, 60
 Garlic, 6
 Bread, 300

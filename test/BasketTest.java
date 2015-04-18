@@ -22,7 +22,7 @@ public class BasketTest {
 	Basket basket;
 
 	public BasketTest() {
-		basket = new Basket();
+		basket = new Basket("ingredients_test.txt");
 	}
 
 	@Test

@@ -4,6 +4,7 @@
  * and open the template in the editor.
  */
 
+import cookingsolver.Basket;
 import cookingsolver.Ingredient;
 import cookingsolver.Recipe;
 import org.junit.After;
@@ -31,6 +32,5 @@ public class RecipeTest {
 		rec.addIngredient(in1, 100);
 		rec.addIngredient(in2, 100);
 		assertEquals(200, rec.getPrice(), 0.0002f);
-
 	}
 }

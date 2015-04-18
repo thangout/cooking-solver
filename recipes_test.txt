@@ -1,0 +1,7 @@
+Egg jaffle
+Bread, 200
+Egg, 2
+
+Egg jaffle big portion
+Bread, 100000
+Egg, 10000

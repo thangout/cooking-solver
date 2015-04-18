@@ -21,10 +21,11 @@ import java.util.logging.Logger;
  */
 public class Basket {
 
-	String INGREDIENTS_FILE = "ingredients.txt";
+	String INGREDIENTS_FILE;
 	HashMap<Ingredient, Integer> ingredientBought;
 
-	public Basket() {
+	public Basket(String fileName) {
+		INGREDIENTS_FILE = fileName;
 		ingredientBought = new HashMap<>();
 		try {
 			parseIngredients();

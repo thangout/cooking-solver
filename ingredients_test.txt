@@ -1,0 +1,3 @@
+Ketchup, 900 43
+Bread, 250 40
+Egg, 30 90
