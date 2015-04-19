@@ -50,7 +50,6 @@ public class Cookbook {
 			while (!"".equals(line = br.readLine()) && !(line == null)) {
 				String[] temp = line.trim().split(",");
 				String ingName = temp[0];
-				System.out.println(ingName);
 				int weight = Integer.parseInt(temp[1].trim());
 				recp.addIngredient(basket.getIngredientByName(ingName), weight);
 			}
@@ -86,4 +85,24 @@ public class Cookbook {
 	public Recipe getRecipe(int index) {
 		return recipes.get(index);
 	}
+
+	/**
+	 * Finds all recipes that can be cooked from basket ingredients
+	 * and fill them to canBeCookedRecipes list
+	 */
+	public void fillCanBeCookedRecipes(){
+		Iterator ite = recipes.iterator();
+		canBeCookedRecipes = new ArrayList<>();
+		while(ite.hasNext()){
+			Recipe recp = (Recipe) ite.next();
+			if (canICookRecipe(recp)) {
+				canBeCookedRecipes.add(recp);
+			}
+		}
+	}
+
+	public ArrayList<Recipe> getCanBeCookedRecipes() {
+		return canBeCookedRecipes;
+	}
+
 }

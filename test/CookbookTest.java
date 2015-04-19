@@ -26,23 +26,6 @@ public class CookbookTest {
 		cb = new Cookbook(basket);
 	}
 
-	@BeforeClass
-	public static void setUpClass() {
-	}
-
-	@AfterClass
-	public static void tearDownClass() {
-	}
-
-	@Before
-	public void setUp() {
-
-	}
-
-	@After
-	public void tearDown() {
-	}
-
 	@Test
 	public void canICookRecipe() {
 		boolean canCook = cb.canICookRecipe(cb.getRecipe(0));
@@ -50,5 +33,14 @@ public class CookbookTest {
 
 		canCook = cb.canICookRecipe(cb.getRecipe(1));
 		assertFalse(canCook);
+	}
+
+	@Test
+	public void fillCanBeCookedRecipes(){
+		assertNull(cb.getCanBeCookedRecipes());
+		cb.fillCanBeCookedRecipes();
+		int sizeOfCanBeCookedRecipes = cb.getCanBeCookedRecipes().size();
+		assertEquals(sizeOfCanBeCookedRecipes,1);
+
 	}
 }
