@@ -43,4 +43,33 @@ public class BasketTest {
 		boolean b = basket.hasEnoughIngredient(ing,100000000);
 		assertEquals(b, false);
 	}
+
+	@Test
+	public void removeFromBasket(){
+		Ingredient ing = basket.getIngredientByName("Ketchup");
+		int boughtAmount = ing.getWeight();
+		boolean a = basket.hasEnoughIngredient(ing,1);
+		assertTrue(a);
+
+		basket.removeFromBasket(ing, boughtAmount);
+
+
+		ing = basket.getIngredientByName("Ketchup");
+		boolean b = basket.hasEnoughIngredient(ing,1);
+		assertFalse(b);
+	}
+
+	@Test
+	public void addToBasket(){
+		Ingredient ing = basket.getIngredientByName("Ketchup");
+		int amountNeeded = ing.getWeight() + 1 ;
+		boolean a = basket.hasEnoughIngredient(ing, amountNeeded);
+		assertFalse(a);
+
+		basket.addToBasket(ing, 1);
+
+		ing = basket.getIngredientByName("Ketchup");
+		boolean b = basket.hasEnoughIngredient(ing,amountNeeded);
+		assertTrue(b);
+	}
 }

@@ -22,6 +22,8 @@ import java.util.logging.Logger;
 public class Basket {
 
 	String INGREDIENTS_FILE;
+
+	//<Ingredient,weightWeBought>
 	HashMap<Ingredient, Integer> ingredientBought;
 
 	public Basket(String fileName) {
@@ -67,6 +69,16 @@ public class Basket {
 		} else {
 			return false;
 		}
+	}
+
+	public void addToBasket(Ingredient ing, int amount) {
+		int inBasketAmount = ingredientBought.get(ing);
+		ingredientBought.put(ing, inBasketAmount + amount);
+	}
+
+	public void removeFromBasket(Ingredient ing, int amount) {
+		int inBasketAmount = ingredientBought.get(ing);
+		ingredientBought.put(ing, inBasketAmount - amount);
 	}
 
 }
