@@ -105,4 +105,7 @@ public class Cookbook {
 		return canBeCookedRecipes;
 	}
 
+	public Recipe getRecipeToCook(int index){
+		return canBeCookedRecipes.get(index);
+	}
 }
