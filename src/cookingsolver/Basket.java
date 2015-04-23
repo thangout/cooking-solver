@@ -46,7 +46,7 @@ public class Basket {
 			String[] values = temp[1].trim().split(" ");
 			int weight = Integer.parseInt(values[0]);
 			int price = Integer.parseInt(values[1]);
-			Ingredient ing = new Ingredient(name, weight, price);
+			Ingredient ing = new Ingredient(name.toLowerCase(), weight, price);
 			ingredientBought.put(ing, weight);
 		}
 	}
@@ -59,7 +59,7 @@ public class Basket {
 				return ing;
 			}
 		}
-		return null;
+		return new Ingredient("You dont have in basket : " + name, 0, 0);
 	}
 
 	public boolean hasEnoughIngredient(Ingredient ing, int amountNeeded) {

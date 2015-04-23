@@ -50,7 +50,7 @@ public class Cookbook {
 			Recipe recp = new Recipe(recipeName);
 			while (!"".equals(line = br.readLine()) && !(line == null)) {
 				String[] temp = line.trim().split(",");
-				String ingName = temp[0];
+				String ingName = temp[0].toLowerCase();
 				int weight = Integer.parseInt(temp[1].trim());
 				recp.addIngredient(basket.getIngredientByName(ingName), weight);
 			}

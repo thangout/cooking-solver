@@ -20,10 +20,11 @@ import static org.junit.Assert.*;
 public class CookbookTest {
 
 	Cookbook cb;
+	Basket basket;
 
 	public CookbookTest() {
-		Basket basket = new Basket("ingredients_test.txt");
-		cb = new Cookbook(basket,"recipes_test.txt");
+		basket = new Basket("ingredients_test.txt");
+		cb = new Cookbook(basket, "recipes_test.txt");
 	}
 
 	@Test
@@ -36,11 +37,11 @@ public class CookbookTest {
 	}
 
 	@Test
-	public void fillCanBeCookedRecipes(){
+	public void fillCanBeCookedRecipes() {
 		assertNull(cb.getCanBeCookedRecipes());
 		cb.fillCanBeCookedRecipes();
 		int sizeOfCanBeCookedRecipes = cb.getCanBeCookedRecipes().size();
-		assertEquals(sizeOfCanBeCookedRecipes,1);
+		assertEquals(sizeOfCanBeCookedRecipes, 1);
 
 	}
 }

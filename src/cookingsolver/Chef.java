@@ -17,8 +17,13 @@ import java.util.Set;
  */
 public class Chef {
 
-	String INGREDIENTS_FILE = "ingredients_test.txt";
-	String RECIPE_FILE = "recipes_test.txt";
+	//test data
+//	String INGREDIENTS_FILE = "ingredients_test.txt";
+	String RECIPE_FILE = "recipes.txt";
+	
+	//real data
+	String INGREDIENTS_FILE = "ingredients.txt";
+//	String RECIPE_FILE = "recipes.txt";
 
 	ArrayList<Recipe> willCookList;
 
@@ -50,6 +55,9 @@ public class Chef {
 		for (int i = 0; i < willCookList.size(); i++) {
 			willCookList.get(i).printIngredients();
 		}
+		System.out.println("**********************************");
+		System.out.println("Can eat for " + willCookList.size() + " day/s");
+		System.out.println("**********************************");
 
 	}
 

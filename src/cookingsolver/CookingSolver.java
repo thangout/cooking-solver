@@ -22,6 +22,9 @@ public class CookingSolver {
 	 * @param args the command line arguments
 	 */
 	public static void main(String[] args) throws IOException {
+		Basket basket = new Basket("ingredients.txt");
+		Cookbook cb = new Cookbook(basket, "recipes.txt");
+		cb.canICookRecipe(cb.getRecipe(1));
 	}
 
 }
