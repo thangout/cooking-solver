@@ -12,6 +12,8 @@ import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -79,6 +81,22 @@ public class Basket {
 	public void removeFromBasket(Ingredient ing, int amount) {
 		int inBasketAmount = ingredientBought.get(ing);
 		ingredientBought.put(ing, inBasketAmount - amount);
+	}
+
+	public int getWeight() {
+		Set<Map.Entry<Ingredient, Integer>> entrySet = ingredientBought.entrySet();
+		int weight = 0;
+		for (Map.Entry<Ingredient, Integer> temp : entrySet) {
+			weight += temp.getValue();
+		}
+		return weight;
+	}
+
+	public void printContent() {
+		Set<Map.Entry<Ingredient, Integer>> entrySet = ingredientBought.entrySet();
+		for (Map.Entry<Ingredient, Integer> temp : entrySet) {
+			System.out.println(temp.getKey().getName() + " : " + temp.getValue() + "g");
+		}
 	}
 
 }
