@@ -3,9 +3,9 @@ Bread, 200
 Egg, 2
 
 Cheese toast
-Bread,200
+Bread, 200
 Cheese, 100 
-Ketchup, -1
+Ketchup, 20
 
 Rice with Tuna and Egg
 Rice, 75
@@ -24,8 +24,10 @@ Tomato, 230
 Pepper, 150
 Egg, 2
 
-Chips
+Chicken & Chips
 Potato, 175
+Ketchup, 20
+Chicken breast, 80
 
 Risotto
 vegetable stock cube, 1
@@ -94,3 +96,8 @@ Egg, 3
 Bacon, 60
 Garlic, 6
 Bread, 300
+
+Tuna on onion with rice
+Tuna, 142
+Rice, 75
+Onion, 50 
