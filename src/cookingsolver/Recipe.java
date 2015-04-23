@@ -49,6 +49,7 @@ public class Recipe {
 		Set<Entry<Ingredient,Integer>> entrySet = usage.entrySet();
 		Iterator ite = entrySet.iterator();
 		System.out.println("______________");
+		System.out.println(name);
 		while(ite.hasNext()){
 			Entry<Ingredient,Integer> temp = (Entry<Ingredient,Integer>) ite.next();
 			System.out.println(temp.getKey().getName() + " : " + temp.getValue() + "g");

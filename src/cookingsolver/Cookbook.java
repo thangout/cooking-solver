@@ -24,14 +24,14 @@ import java.util.logging.Logger;
  */
 public class Cookbook {
 
-//	String RECIPE_FILE = "recipes.txt";
-	String RECIPE_FILE = "recipes_test.txt";
+	String RECIPE_FILE;
 	ArrayList<Recipe> recipes;
 	ArrayList<Recipe> canBeCookedRecipes;
 	Basket basket;
 
-	public Cookbook(Basket basket) {
+	public Cookbook(Basket basket,String fileName) {
 		this.basket = basket;
+		this.RECIPE_FILE = fileName;
 		recipes = new ArrayList<>();
 		try {
 			parseRecipes();
@@ -39,6 +39,7 @@ public class Cookbook {
 			Logger.getLogger(Cookbook.class.getName()).log(Level.SEVERE, null, ex);
 		}
 	}
+
 
 	public void parseRecipes() throws IOException {
 		FileInputStream fstream = new FileInputStream(RECIPE_FILE);

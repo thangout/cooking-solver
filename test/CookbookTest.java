@@ -23,7 +23,7 @@ public class CookbookTest {
 
 	public CookbookTest() {
 		Basket basket = new Basket("ingredients_test.txt");
-		cb = new Cookbook(basket);
+		cb = new Cookbook(basket,"recipes_test.txt");
 	}
 
 	@Test

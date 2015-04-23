@@ -18,6 +18,7 @@ import java.util.Set;
 public class Chef {
 
 	String INGREDIENTS_FILE = "ingredients_test.txt";
+	String RECIPE_FILE = "recipes_test.txt";
 
 	ArrayList<Recipe> willCookList;
 
@@ -26,13 +27,13 @@ public class Chef {
 
 	public Chef() {
 		basket = new Basket(INGREDIENTS_FILE);
-		cb = new Cookbook(basket);
+		cb = new Cookbook(basket,RECIPE_FILE);
 		willCookList = new ArrayList<>();
 	}
 
 	public void findOptimalCookList() {
 		while (true) {
-		//fill the list in cookbook by recipes that Can be cooked,
+			//fill the list in cookbook by recipes that Can be cooked,
 			//neighbor creating
 			cb.fillCanBeCookedRecipes();
 
@@ -44,6 +45,10 @@ public class Chef {
 				System.out.println("§end§");
 				break;
 			}
+		}
+
+		for (int i = 0; i < willCookList.size(); i++) {
+			willCookList.get(i).printIngredients();
 		}
 
 	}
@@ -106,9 +111,5 @@ public class Chef {
 	public ArrayList<Recipe> getWillCookList() {
 		return willCookList;
 	}
-
-	
-
-	
 
 }
