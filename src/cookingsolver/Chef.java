@@ -44,7 +44,8 @@ public class Chef {
 
 			//adding cheapest recipe
 			if (cb.getCanBeCookedRecipes().size() > 0) {
-				Recipe recp = evaluateCandidateRecipes();
+//				Recipe recp = evaluateCandidateRecipesByPrice();
+				Recipe recp = evaluateCandidateRecipesByWeight();
 				addRecipeToCookList(recp);
 			} else {
 				System.out.println("§end§");
@@ -61,7 +62,7 @@ public class Chef {
 
 	}
 
-	public Recipe evaluateCandidateRecipes() {
+	public Recipe evaluateCandidateRecipesByPrice() {
 		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
 		int recipePrice = -1;
 		Recipe bestRecipe = null;
@@ -75,6 +76,25 @@ public class Chef {
 			if (recp.getPrice() < recipePrice) {
 				bestRecipe = recp;
 				recipePrice = (int) recp.getPrice();
+			}
+		}
+		return bestRecipe;
+	}
+
+	public Recipe evaluateCandidateRecipesByWeight() {
+		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
+		int recipeWeight = -1;
+		Recipe bestRecipe = null;
+		//find min price recipe
+		for (int i = 0; i < sizeCandidateList; i++) {
+			Recipe recp = cb.getRecipeToCook(i);
+			if (i == 0) {
+				recipeWeight =  recp.getWeight();
+				bestRecipe = recp;
+			}
+			if (recp.getWeight() < recipeWeight) {
+				recipeWeight =  recp.getWeight();
+				bestRecipe = recp;
 			}
 		}
 		return bestRecipe;

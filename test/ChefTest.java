@@ -32,7 +32,7 @@ public class ChefTest {
 		cb.fillCanBeCookedRecipes();
 		assertEquals(cb.getCanBeCookedRecipes().size(), 1);
 		
-		Recipe recp = chef.evaluateCandidateRecipes();
+		Recipe recp = chef.evaluateCandidateRecipesByPrice();
 		assertNotNull(recp);
 	}
 
