@@ -7,6 +7,7 @@ package cookingsolver;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -27,12 +28,15 @@ public class Chef {
 
 	ArrayList<Recipe> willCookList;
 
+	HashSet<Recipe> tabulist;
+
 	Basket basket;
 	Cookbook cb;
 
 	public Chef() {
 		basket = new Basket(INGREDIENTS_FILE);
 		cb = new Cookbook(basket, RECIPE_FILE);
+		tabulist = new HashSet<>();
 		willCookList = new ArrayList<>();
 	}
 
@@ -116,11 +120,19 @@ public class Chef {
 				bestRecipe = recp;
 			}
 			if (recp.getPriceWeightRatio() < recipePriceWeightRation) {
-				recipePriceWeightRation = recp.getPriceWeightRatio();
-				bestRecipe = recp;
+				if (!isTabu(recp)) {
+					recipePriceWeightRation = recp.getPriceWeightRatio();
+					bestRecipe = recp;
+				}
 			}
 		}
+
+		tabulist.add(bestRecipe);
 		return bestRecipe;
+	}
+
+	public boolean isTabu(Recipe recipe) {
+		return tabulist.contains(recipe);
 	}
 
 	public Recipe evaluateCandidateRecipesByRandom() {
