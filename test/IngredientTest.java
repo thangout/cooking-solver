@@ -26,6 +26,6 @@ public class IngredientTest {
 		int weight = 200;
 		int price = 100;
 		Ingredient in = new Ingredient("test", weight, price);
-		assertEquals((float) price / weight, in.getPrice(), 0.0002);
+		assertEquals((float) price / weight, in.getPrice(), 0.000);
 	}
 }

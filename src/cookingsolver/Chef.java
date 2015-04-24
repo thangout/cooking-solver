@@ -112,11 +112,11 @@ public class Chef {
 		for (int i = 0; i < sizeCandidateList; i++) {
 			Recipe recp = cb.getRecipeToCook(i);
 			if (i == 0) {
-				recipePriceWeightRation = recp.getPriceWeightRation();
+				recipePriceWeightRation = recp.getPriceWeightRatio();
 				bestRecipe = recp;
 			}
-			if (recp.getPriceWeightRation()< recipePriceWeightRation) {
-				recipePriceWeightRation = recp.getPriceWeightRation();
+			if (recp.getPriceWeightRatio() < recipePriceWeightRation) {
+				recipePriceWeightRation = recp.getPriceWeightRatio();
 				bestRecipe = recp;
 			}
 		}

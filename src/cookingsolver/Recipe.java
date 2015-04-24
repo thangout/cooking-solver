@@ -53,7 +53,7 @@ public class Recipe {
 		return weight;
 	}
 
-	public float getPriceWeightRation() {
+	public float getPriceWeightRatio() {
 		return getPrice() / getWeight();
 	}
 

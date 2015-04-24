@@ -33,4 +33,18 @@ public class RecipeTest {
 		rec.addIngredient(in2, 100);
 		assertEquals(200, rec.getPrice(), 0.0002f);
 	}
+
+	@Test
+	public void getPriceWeightRatio(){
+		int weight = 100;
+		int price = 150;
+		Ingredient in1 = new Ingredient("test",  weight,price);
+		Ingredient in2 = new Ingredient("test2",  weight,price);
+		Recipe rec = new Recipe("testname");
+
+		rec.addIngredient(in1, weight);
+		rec.addIngredient(in2, weight);
+		float ratio = rec.getPriceWeightRatio();
+		assertEquals((((float)price/weight)*(weight*2))/(2*weight), ratio, 0.000f);
+	}
 }
