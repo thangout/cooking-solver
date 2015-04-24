@@ -53,6 +53,10 @@ public class Recipe {
 		return weight;
 	}
 
+	public float getPriceWeightRation() {
+		return getPrice() / getWeight();
+	}
+
 	public void printIngredients() {
 		Set<Entry<Ingredient, Integer>> entrySet = usage.entrySet();
 		Iterator ite = entrySet.iterator();

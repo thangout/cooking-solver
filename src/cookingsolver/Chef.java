@@ -20,7 +20,7 @@ public class Chef {
 	//test data
 //	String INGREDIENTS_FILE = "ingredients_test.txt";
 	String RECIPE_FILE = "recipes.txt";
-	
+
 	//real data
 	String INGREDIENTS_FILE = "ingredients.txt";
 //	String RECIPE_FILE = "recipes.txt";
@@ -32,7 +32,7 @@ public class Chef {
 
 	public Chef() {
 		basket = new Basket(INGREDIENTS_FILE);
-		cb = new Cookbook(basket,RECIPE_FILE);
+		cb = new Cookbook(basket, RECIPE_FILE);
 		willCookList = new ArrayList<>();
 	}
 
@@ -45,7 +45,10 @@ public class Chef {
 			//adding cheapest recipe
 			if (cb.getCanBeCookedRecipes().size() > 0) {
 //				Recipe recp = evaluateCandidateRecipesByPrice();
-				Recipe recp = evaluateCandidateRecipesByWeight();
+//				Recipe recp = evaluateCandidateRecipesByWeight();
+//				Recipe recp = evaluateCandidateRecipesByRandom();
+				Recipe recp = evaluateCandidateRecipesByPriceWeightRatio();
+
 				addRecipeToCookList(recp);
 			} else {
 				System.out.println("§end§");
@@ -58,6 +61,7 @@ public class Chef {
 		}
 		System.out.println("**********************************");
 		System.out.println("Can eat for " + willCookList.size() + " day/s");
+		System.out.println("Remain weight in basket: " + basket.getWeight() + "g");
 		System.out.println("**********************************");
 
 	}
@@ -85,19 +89,44 @@ public class Chef {
 		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
 		int recipeWeight = -1;
 		Recipe bestRecipe = null;
-		//find min price recipe
+		//find min weight recipe
 		for (int i = 0; i < sizeCandidateList; i++) {
 			Recipe recp = cb.getRecipeToCook(i);
 			if (i == 0) {
-				recipeWeight =  recp.getWeight();
+				recipeWeight = recp.getWeight();
 				bestRecipe = recp;
 			}
 			if (recp.getWeight() < recipeWeight) {
-				recipeWeight =  recp.getWeight();
+				recipeWeight = recp.getWeight();
 				bestRecipe = recp;
 			}
 		}
 		return bestRecipe;
+	}
+
+	public Recipe evaluateCandidateRecipesByPriceWeightRatio() {
+		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
+		float recipePriceWeightRation = -1;
+		Recipe bestRecipe = null;
+		//find min weight recipe
+		for (int i = 0; i < sizeCandidateList; i++) {
+			Recipe recp = cb.getRecipeToCook(i);
+			if (i == 0) {
+				recipePriceWeightRation = recp.getPriceWeightRation();
+				bestRecipe = recp;
+			}
+			if (recp.getPriceWeightRation()< recipePriceWeightRation) {
+				recipePriceWeightRation = recp.getPriceWeightRation();
+				bestRecipe = recp;
+			}
+		}
+		return bestRecipe;
+	}
+
+	public Recipe evaluateCandidateRecipesByRandom() {
+		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
+		int randomIndex = (int) (Math.random() * sizeCandidateList);
+		return cb.getRecipeToCook(randomIndex);
 	}
 
 	public void addRecipeToCookList(Recipe recp) {
