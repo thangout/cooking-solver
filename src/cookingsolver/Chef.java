@@ -51,7 +51,8 @@ public class Chef {
 //				Recipe recp = evaluateCandidateRecipesByPrice();
 //				Recipe recp = evaluateCandidateRecipesByWeight();
 //				Recipe recp = evaluateCandidateRecipesByRandom();
-				Recipe recp = evaluateCandidateRecipesByPriceWeightRatio();
+//				Recipe recp = evaluateCandidateRecipesByPriceWeightRatio();
+				Recipe recp = evaluateCandidateRecipesByBasket();
 
 				addRecipeToCookList(recp);
 			} else {
@@ -60,11 +61,16 @@ public class Chef {
 			}
 		}
 
+		float totalPrice = 0;
 		for (int i = 0; i < willCookList.size(); i++) {
-			willCookList.get(i).printIngredients();
+			Recipe recp = willCookList.get(i);
+			recp.printIngredients();
+			totalPrice += recp.getPrice();
 		}
+
 		System.out.println("**********************************");
 		System.out.println("Can eat for " + willCookList.size() + " day/s");
+		System.out.println("Total money spend " + totalPrice + ",-");
 		System.out.println("Remain weight in basket: " + basket.getWeight() + "g");
 		System.out.println("**********************************");
 
@@ -82,10 +88,13 @@ public class Chef {
 				bestRecipe = recp;
 			}
 			if (recp.getPrice() < recipePrice) {
-				bestRecipe = recp;
-				recipePrice = (int) recp.getPrice();
+				if (!isTabu(recp)) {
+					bestRecipe = recp;
+					recipePrice = (int) recp.getPrice();
+				}
 			}
 		}
+//		tabulist.add(bestRecipe);
 		return bestRecipe;
 	}
 
@@ -126,8 +135,39 @@ public class Chef {
 				}
 			}
 		}
+//		tabulist.add(bestRecipe);
+		return bestRecipe;
+	}
 
-		tabulist.add(bestRecipe);
+	public Recipe evaluateCandidateRecipesByBasket() {
+		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
+		float canBeCookedSize = -1;
+		float price = 0;
+		Recipe bestRecipe = null;
+		for (int i = 0; i < sizeCandidateList; i++) {
+			cb.fillCanBeCookedRecipes();
+			Recipe recp = cb.getRecipeToCook(i);
+			if (i == 0) {
+				bestRecipe = recp;
+				price = recp.getPrice();
+				addRecipeToCookList(recp);
+				cb.fillCanBeCookedRecipes();
+				canBeCookedSize = cb.getCanBeCookedRecipes().size();
+				removeRecipeFromCookList(recp);
+			}
+
+			addRecipeToCookList(recp);
+			cb.fillCanBeCookedRecipes();
+
+			if (!isTabu(recp)&&cb.getCanBeCookedRecipes().size() >= canBeCookedSize && recp.getPrice() < price ) {
+				bestRecipe = recp;
+				price = recp.getPrice();
+				canBeCookedSize = cb.getCanBeCookedRecipes().size();
+			}
+
+			removeRecipeFromCookList(recp);
+		}
+//		tabulist.add(bestRecipe);
 		return bestRecipe;
 	}
 
