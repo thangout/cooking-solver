@@ -53,6 +53,45 @@ public class Recipe {
 		return weight;
 	}
 
+	public double getProteins() {
+		Set<Entry<Ingredient, Integer>> entrySet = usage.entrySet();
+		int protein = 0;
+		for (Entry<Ingredient, Integer> temp : entrySet) {
+			if ("egg".equals(temp.getKey().getName())) {
+				protein += (temp.getKey().getProtein()) * temp.getValue();
+			} else {
+				protein += (temp.getKey().getProtein() / 100) * temp.getValue();
+			}
+		}
+		return protein;
+	}
+
+	public double getCarbs() {
+		Set<Entry<Ingredient, Integer>> entrySet = usage.entrySet();
+		int carbs = 0;
+		for (Entry<Ingredient, Integer> temp : entrySet) {
+			if ("egg".equals(temp.getKey().getName())) {
+			carbs += (temp.getKey().getCarbohydrate()) * temp.getValue();
+			}else{
+			carbs += (temp.getKey().getCarbohydrate() / 100) * temp.getValue();
+			}
+		}
+		return carbs;
+	}
+
+	public double getFats() {
+		Set<Entry<Ingredient, Integer>> entrySet = usage.entrySet();
+		int fats = 0;
+		for (Entry<Ingredient, Integer> temp : entrySet) {
+			if ("egg".equals(temp.getKey().getName())) {
+			fats += (temp.getKey().getFat()) * temp.getValue();
+			}else{
+			fats += (temp.getKey().getFat() / 100) * temp.getValue();
+			}
+		}
+		return fats;
+	}
+
 	public float getPriceWeightRatio() {
 		return getPrice() / getWeight();
 	}
@@ -71,5 +110,9 @@ public class Recipe {
 
 	public HashMap getIngredientsNeeded() {
 		return usage;
+	}
+
+	public String getName() {
+		return name;
 	}
 }
