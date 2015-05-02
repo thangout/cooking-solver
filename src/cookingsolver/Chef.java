@@ -9,8 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.Map.Entry;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -26,54 +29,100 @@ public class Chef {
 	String INGREDIENTS_FILE = "ingredients.txt";
 //	String RECIPE_FILE = "recipes.txt";
 
+	// Limiit for nutritions
+	double proteinMin = 500;
+	double carbMin = 100;
+	double fatMin = 100;
+	double proteinMax = 1000;
+	double carbMax = 800;
+	double fatMax = 700;
+
 	ArrayList<Recipe> willCookList;
 
 	HashSet<Recipe> tabulist;
+	LinkedList<Integer> tabulistHash;
 
 	Basket basket;
+	Basket origBasket;
 	Cookbook cb;
 
 	public Chef() {
-		basket = new Basket(INGREDIENTS_FILE);
-		cb = new Cookbook(basket, RECIPE_FILE);
+		origBasket = new Basket(INGREDIENTS_FILE);
+		basket = origBasket;
+		cb = new Cookbook(origBasket, RECIPE_FILE);
 		tabulist = new HashSet<>();
+		tabulistHash = new LinkedList<>();
 		willCookList = new ArrayList<>();
 	}
 
 	public void findOptimalCookList() {
-		while (true) {
-			//fill the list in cookbook by recipes that Can be cooked,
-			//neighbor creating
-			cb.fillCanBeCookedRecipes();
+		ArrayList<Recipe> bestList = null;
+		float bestTotalPrice = 0;
+		for (int j = 0; j < 1000; j++) {
+			basket.resetBasket();
+			willCookList.clear();
 
-			//adding cheapest recipe
-			if (cb.getCanBeCookedRecipes().size() > 0) {
+			while (!calculateNutritions(willCookList)) {
+				//fill the list in cookbook by recipes that Can be cooked,
+				//neighbor creating
+				cb.fillCanBeCookedRecipes();
+
+				//adding cheapest recipe
+				if (cb.getCanBeCookedRecipes().size() > 0) {
 //				Recipe recp = evaluateCandidateRecipesByPrice();
 //				Recipe recp = evaluateCandidateRecipesByWeight();
-//				Recipe recp = evaluateCandidateRecipesByRandom();
-//				Recipe recp = evaluateCandidateRecipesByPriceWeightRatio();
-				Recipe recp = evaluateCandidateRecipesByBasket();
+					Recipe recp = evaluateCandidateRecipesByRandom();
+//					Recipe recp = evaluateCandidateRecipesByPriceWeightRatio();
+//					Recipe recp = evaluateCandidateRecipesByBasket();
+					if (!(recp == null)) {
+//						System.out.println(recp.name + "= add: " + willCookList.hashCode());
+						addRecipeToCookList(recp);
+						tabulistHash.add(willCookList.hashCode());
+					} else {
+						if (tabulistHash.size() > 7) {
+						}
+					}
+				} else {
+					break;
+				}
+			}
 
-				addRecipeToCookList(recp);
+			float totalPrice = 0;
+			for (int i = 0; i < willCookList.size(); i++) {
+				Recipe recp = willCookList.get(i);
+//				recp.printIngredients();
+				totalPrice += recp.getPrice();
+			}
+
+//			System.out.println("**********************************");
+//			System.out.println("Can eat for " + willCookList.size() + " day/s");
+//			System.out.println("Total money spend " + totalPrice + ",-");
+//			System.out.println("Remain weight in basket: " + basket.getWeight() + "g");
+
+			if (bestList == null) {
+				bestList = (ArrayList<Recipe>) willCookList.clone();
+				bestTotalPrice = totalPrice;
 			} else {
-				System.out.println("§end§");
-				break;
+				if (totalPrice < bestTotalPrice) {
+					bestList = (ArrayList<Recipe>) willCookList.clone();
+					bestTotalPrice = totalPrice;
+				}
 			}
 		}
-
-		float totalPrice = 0;
-		for (int i = 0; i < willCookList.size(); i++) {
-			Recipe recp = willCookList.get(i);
+		System.out.println("**********************************");
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("Can eat for " + bestList.size() + " day/s");
+		System.out.println("Total money spend " + bestTotalPrice + ",-");
+		System.out.println(calculateNutritions(bestList));
+//		System.out.println("Remain weight in basket: " + basket.getWeight() + "g");
+		System.out.println(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+		System.out.println("**********************************");
+		for (int i = 0; i < bestList.size(); i++) {
+			Recipe recp = bestList.get(i);
 			recp.printIngredients();
-			totalPrice += recp.getPrice();
+			System.out.println("Recipe NO-" + i);
 		}
-
-		System.out.println("**********************************");
-		System.out.println("Can eat for " + willCookList.size() + " day/s");
-		System.out.println("Total money spend " + totalPrice + ",-");
-		System.out.println("Remain weight in basket: " + basket.getWeight() + "g");
-		System.out.println("**********************************");
-
+		System.out.println(tabulistHash.size());
 	}
 
 	public Recipe evaluateCandidateRecipesByPrice() {
@@ -141,38 +190,106 @@ public class Chef {
 
 	public Recipe evaluateCandidateRecipesByBasket() {
 		int sizeCandidateList = cb.getCanBeCookedRecipes().size();
+		double alpha = 1;
+		double beta = 1;
 		float canBeCookedSize = -1;
-		float price = 0;
+		double koef = 0;
 		Recipe bestRecipe = null;
+		ArrayList<Recipe> tabuRecipes = new ArrayList<>();
 		for (int i = 0; i < sizeCandidateList; i++) {
 			cb.fillCanBeCookedRecipes();
 			Recipe recp = cb.getRecipeToCook(i);
 			if (i == 0) {
-				bestRecipe = recp;
-				price = recp.getPrice();
+				koef = calculateKoeficient(recp, alpha, beta);
 				addRecipeToCookList(recp);
 				cb.fillCanBeCookedRecipes();
-				canBeCookedSize = cb.getCanBeCookedRecipes().size();
+				if (!isTabuHash(willCookList.hashCode())) {
+					bestRecipe = recp;
+					canBeCookedSize = cb.getCanBeCookedRecipes().size();
+				} else {
+					tabuRecipes.add(recp);
+				}
 				removeRecipeFromCookList(recp);
 			}
-
 			addRecipeToCookList(recp);
 			cb.fillCanBeCookedRecipes();
+//			System.out.println(isTabuHash(willCookList.hashCode()));
+			if (!isTabuHash(willCookList.hashCode()) && cb.getCanBeCookedRecipes().size() >= canBeCookedSize
+				&& koef >= calculateKoeficient(recp, alpha, beta)) {
 
-			if (!isTabu(recp)&&cb.getCanBeCookedRecipes().size() >= canBeCookedSize && recp.getPrice() < price ) {
 				bestRecipe = recp;
-				price = recp.getPrice();
+				koef = calculateKoeficient(recp, alpha, beta);
 				canBeCookedSize = cb.getCanBeCookedRecipes().size();
+			} else {
+				tabuRecipes.add(recp);
 			}
 
 			removeRecipeFromCookList(recp);
 		}
-//		tabulist.add(bestRecipe);
+		if (bestRecipe == null) {
+			bestRecipe = pickTabuRecipe(tabuRecipes);
+			tabulistHash.poll();
+		}
+
 		return bestRecipe;
+	}
+
+	public double calculateKoeficient(Recipe recp, double alpha, double beta) {
+		double koef = 0;
+		double nutritions = recp.getProteins() + recp.getCarbs() + recp.getFats();
+		double price = recp.getPriceWeightRatio();
+//		double price = recp.getPrice();
+		koef = alpha * nutritions - beta * price;
+		return koef;
+	}
+
+	public boolean calculateNutritions(ArrayList<Recipe> list) {
+		double proteins = 0;
+		double carbs = 0;
+		double fats = 0;
+		for (int i = 0; i < list.size(); i++) {
+			Recipe recp = list.get(i);
+			proteins += recp.getProteins();
+			carbs += recp.getCarbs();
+			fats += recp.getFats();
+		}
+
+		if (proteins >= proteinMin && carbs >= carbMin && fats >= fatMin
+			&& proteins <= proteinMax && carbs <= carbMax && fats <= fatMax) {
+//			System.out.println(proteins + ":" + carbs + ":" + fats);
+			return true;
+		}
+		return false;
+	}
+
+	public Recipe pickTabuRecipe(ArrayList<Recipe> list) {
+		int sizeCandidateList = list.size();
+		float recipePriceWeightRation = -1;
+		Recipe bestRecipe = null;
+		//find min weight recipe
+		for (int i = 0; i < sizeCandidateList; i++) {
+			Recipe recp = list.get(i);
+			if (i == 0) {
+				recipePriceWeightRation = recp.getPriceWeightRatio();
+				bestRecipe = recp;
+			}
+			if (recp.getPriceWeightRatio() < recipePriceWeightRation) {
+				if (!isTabu(recp)) {
+					recipePriceWeightRation = recp.getPriceWeightRatio();
+					bestRecipe = recp;
+				}
+			}
+		}
+		return bestRecipe;
+
 	}
 
 	public boolean isTabu(Recipe recipe) {
 		return tabulist.contains(recipe);
+	}
+
+	public boolean isTabuHash(int hash) {
+		return tabulistHash.contains(hash);
 	}
 
 	public Recipe evaluateCandidateRecipesByRandom() {

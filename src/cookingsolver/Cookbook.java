@@ -103,6 +103,7 @@ public class Cookbook {
 		}
 	}
 
+
 	public ArrayList<Recipe> getCanBeCookedRecipes() {
 		return canBeCookedRecipes;
 	}

@@ -71,9 +71,9 @@ public class Recipe {
 		int carbs = 0;
 		for (Entry<Ingredient, Integer> temp : entrySet) {
 			if ("egg".equals(temp.getKey().getName())) {
-			carbs += (temp.getKey().getCarbohydrate()) * temp.getValue();
-			}else{
-			carbs += (temp.getKey().getCarbohydrate() / 100) * temp.getValue();
+				carbs += (temp.getKey().getCarbohydrate()) * temp.getValue();
+			} else {
+				carbs += (temp.getKey().getCarbohydrate() / 100) * temp.getValue();
 			}
 		}
 		return carbs;
@@ -84,9 +84,9 @@ public class Recipe {
 		int fats = 0;
 		for (Entry<Ingredient, Integer> temp : entrySet) {
 			if ("egg".equals(temp.getKey().getName())) {
-			fats += (temp.getKey().getFat()) * temp.getValue();
-			}else{
-			fats += (temp.getKey().getFat() / 100) * temp.getValue();
+				fats += (temp.getKey().getFat()) * temp.getValue();
+			} else {
+				fats += (temp.getKey().getFat() / 100) * temp.getValue();
 			}
 		}
 		return fats;
