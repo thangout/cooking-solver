@@ -21,13 +21,14 @@ import java.util.logging.Logger;
  *
  * @author Thang Do
  */
-public class Basket {
+public class Basket implements Cloneable {
 
 	String INGREDIENTS_FILE;
 
 	//<Ingredient,weightWeBought>
 	HashMap<Ingredient, Integer> ingredientBought;
-
+	HashMap<Ingredient, Integer> ingredientBoughtForReset;
+	
 	public Basket(String fileName) {
 		INGREDIENTS_FILE = fileName;
 		ingredientBought = new HashMap<>();
@@ -36,6 +37,12 @@ public class Basket {
 		} catch (IOException ex) {
 			Logger.getLogger(Basket.class.getName()).log(Level.SEVERE, null, ex);
 		}
+		ingredientBoughtForReset = (HashMap<Ingredient, Integer>) ingredientBought.clone();
+	}
+
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
 	}
 
 	public void parseIngredients() throws IOException {
@@ -99,4 +106,7 @@ public class Basket {
 		}
 	}
 
+	public void resetBasket(){
+			ingredientBought = (HashMap<Ingredient, Integer>) ingredientBoughtForReset.clone();
+	}
 }
