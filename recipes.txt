@@ -24,7 +24,7 @@ Tomato, 230
 Pepper, 150
 Egg, 2
 
-Chicken & Chips
+Chicken Chips
 Potato, 175
 Ketchup, 20
 Chicken breast, 80
