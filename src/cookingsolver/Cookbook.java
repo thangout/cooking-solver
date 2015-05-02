@@ -29,7 +29,7 @@ public class Cookbook {
 	ArrayList<Recipe> canBeCookedRecipes;
 	Basket basket;
 
-	public Cookbook(Basket basket,String fileName) {
+	public Cookbook(Basket basket, String fileName) {
 		this.basket = basket;
 		this.RECIPE_FILE = fileName;
 		recipes = new ArrayList<>();
@@ -38,8 +38,8 @@ public class Cookbook {
 		} catch (IOException ex) {
 			Logger.getLogger(Cookbook.class.getName()).log(Level.SEVERE, null, ex);
 		}
+//		printRecipesForGusek();
 	}
-
 
 	public void parseRecipes() throws IOException {
 		FileInputStream fstream = new FileInputStream(RECIPE_FILE);
@@ -80,21 +80,22 @@ public class Cookbook {
 
 	/**
 	 * Get recipe at given index
+	 *
 	 * @param index
-	 * @return recipe 
+	 * @return recipe
 	 */
 	public Recipe getRecipe(int index) {
 		return recipes.get(index);
 	}
 
 	/**
-	 * Finds all recipes that can be cooked from basket ingredients
-	 * and fill them to canBeCookedRecipes list
+	 * Finds all recipes that can be cooked from basket ingredients and fill
+	 * them to canBeCookedRecipes list
 	 */
-	public void fillCanBeCookedRecipes(){
+	public void fillCanBeCookedRecipes() {
 		Iterator ite = recipes.iterator();
 		canBeCookedRecipes = new ArrayList<>();
-		while(ite.hasNext()){
+		while (ite.hasNext()) {
 			Recipe recp = (Recipe) ite.next();
 			if (canICookRecipe(recp)) {
 				canBeCookedRecipes.add(recp);
@@ -106,7 +107,55 @@ public class Cookbook {
 		return canBeCookedRecipes;
 	}
 
-	public Recipe getRecipeToCook(int index){
+	public Recipe getRecipeToCook(int index) {
 		return canBeCookedRecipes.get(index);
+	}
+
+	public void printRecipesForGusek() {
+		Iterator ite = recipes.iterator();
+		ArrayList<String> ingredients = basket.getIngredientName();
+
+		for (int i = 0; i < ingredients.size(); i++) {
+			String ingName = ingredients.get(i);
+//			String parsedName = ingName.replaceAll(" ","");
+			System.out.print(ingName.replaceAll(" ","") + "\t");
+
+			for (int j = 0; j < recipes.size(); j++) {
+				Recipe recp = recipes.get(j);
+				if (recp.getIngredientsNeeded().containsKey(basket.getIngredientByName(ingName.toLowerCase()))) {
+					HashMap<Ingredient, Integer> map = recp.getIngredientsNeeded();
+					System.out.print(map.get(basket.getIngredientByName(ingName.toLowerCase())) + "\t");	
+				}else{
+					System.out.print("0\t");	
+				}
+			}
+			System.out.println("");
+
+		}
+		while (ite.hasNext()) {
+			Recipe recp = (Recipe) ite.next();
+			/*Recipe and price*/
+			String name = recp.getName().replaceAll(" ", "");
+//			System.out.println(name + " " + recp.getPrice());
+//			System.out.print(name + " ");
+			/* print nutritions */
+//			System.out.print(recp.getProteins() + " ");
+//			System.out.print(recp.getCarbs()+ " ");
+//			System.out.print(recp.getFats()+ " ");
+		}
+
+		while (ite.hasNext()) {
+			Recipe recp = (Recipe) ite.next();
+			/*Recipe and price*/
+			String name = recp.getName().replaceAll(" ", "");
+		}
+
+		while (ite.hasNext()) {
+			Recipe recp = (Recipe) ite.next();
+			/*Recipe and price*/
+			String name = recp.getName().replaceAll(" ", "");
+		}
+
+		System.out.println("__________________");
 	}
 }

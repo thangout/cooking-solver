@@ -28,10 +28,12 @@ public class Basket implements Cloneable {
 	//<Ingredient,weightWeBought>
 	HashMap<Ingredient, Integer> ingredientBought;
 	HashMap<Ingredient, Integer> ingredientBoughtForReset;
-	
+	ArrayList<String> ingredientName;
+
 	public Basket(String fileName) {
 		INGREDIENTS_FILE = fileName;
 		ingredientBought = new HashMap<>();
+		ingredientName = new ArrayList<>();
 		try {
 			parseIngredients();
 		} catch (IOException ex) {
@@ -52,10 +54,19 @@ public class Basket implements Cloneable {
 		while ((line = br.readLine()) != null) {
 			String[] temp = line.trim().split(",");
 			String name = temp[0];
+			ingredientName.add(name);
 			String[] values = temp[1].trim().split(" ");
 			int weight = Integer.parseInt(values[0]);
+			//GUSEK PRINT DATA
+//			System.out.println(name.replaceAll(" ", "") + "\t 0 \t" + weight );
+//			System.out.print(name.replaceAll(" ", "")+ " ");
 			int price = Integer.parseInt(values[1]);
-			Ingredient ing = new Ingredient(name.toLowerCase(), weight, price);
+			double protein = Double.parseDouble(values[2]);
+			double carb = Double.parseDouble(values[3]);
+			double fat = Double.parseDouble(values[4]);
+//			Ingredient ing = new Ingredient(name.toLowerCase(), weight, price);
+			Ingredient ing = new Ingredient(name.toLowerCase(), weight, price,
+				protein, carb, fat);
 			ingredientBought.put(ing, weight);
 		}
 	}
@@ -106,7 +117,15 @@ public class Basket implements Cloneable {
 		}
 	}
 
-	public void resetBasket(){
-			ingredientBought = (HashMap<Ingredient, Integer>) ingredientBoughtForReset.clone();
+	/**
+	 * Refill the basket as it was unused
+	 */
+	public void resetBasket() {
+		ingredientBought = (HashMap<Ingredient, Integer>) ingredientBoughtForReset.clone();
 	}
+
+	public ArrayList<String> getIngredientName() {
+		return ingredientName;
+	}
+
 }
